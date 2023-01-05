@@ -1,4 +1,4 @@
-from spotifyBearer import return_access_token
+from bearer import return_access_token
 from spotifyApi import *
 
 searchTerm = "ocean man"
