@@ -14,8 +14,8 @@ import logging, base64
 
 userCode = None
 
-clientId = '440fd6baab334f568adac323a600296e'
-clientSecret = '4c9b1e58b12448e79ca81f91b38b7486'
+clientId = ''
+clientSecret = ''
 
 url = f'https://accounts.spotify.com/authorize?client_id={clientId}&response_type=code&redirect_uri=http://localhost:45/callback&scope=user-read-private user-read-email ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control streaming playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-follow-modify user-follow-read user-read-playback-position user-top-read user-read-recently-played user-library-modify user-library-read'
 
