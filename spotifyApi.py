@@ -35,3 +35,30 @@ def playTrack(bearer,trackId):
                 return r.json()
         else:
             return r.json()
+
+def pauseTrack(bearer):
+    headers = {
+        "Authorization": f"Bearer {bearer}"
+    }
+    r = requests.put("https://api.spotify.com/v1/me/player/pause",headers=headers)
+    if r.content == b'':
+        return {"status":"success"}
+    else:
+        return r.json()
+
+def gotoPoint(bearer,seconds):
+    headers = {
+        "Authorization": f"Bearer {bearer}"
+    }
+    r = requests.put(f"https://api.spotify.com/v1/me/player/seek?position_ms={seconds*1000}",headers=headers)
+    if r.content == b'':
+        return {"status":"success"}
+    else:
+        return r.json()
+
+def getTrackInfo(bearer,id):
+    headers = {
+        "Authorization": f"Bearer {bearer}"
+    }
+    r = requests.get(f"https://api.spotify.com/v1/tracks/{id}",headers=headers)
+    return r.json()
