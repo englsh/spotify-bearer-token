@@ -11,12 +11,27 @@ def searchTrack(bearer,query):
     r = requests.get(f"https://api.spotify.com/v1/search?q={query}&type=track&include_external=audio",headers=headers)
     return r.json()
 
+def getLastDeviceID(bearer):
+    headers = {
+        "Authorization": f"Bearer {bearer}"
+    }
+    r = requests.get("https://api.spotify.com/v1/me/player/devices",headers=headers)
+    return r.json()['devices'][0]['id']
+
 def playTrack(bearer,trackId):
     headers = {
         "Authorization": f"Bearer {bearer}"
     }
     r = requests.put("https://api.spotify.com/v1/me/player/play",headers=headers,json={"uris":[f"spotify:track:{trackId}"]})
-    try:
-        return r.json()
-    except:
-        return {"success":True}
+    if r.content == b'':
+        return {"status":"success"}
+    else:
+        if r.json()['error']['message'] == "Player command failed: No active device found":
+            lastDevice = getLastDeviceID(bearer)
+            r = requests.put(f"https://api.spotify.com/v1/me/player/play?device_id={lastDevice}",headers=headers,json={"uris":[f"spotify:track:{trackId}"]})
+            if r.content == b'':
+                return {"status":"success"}
+            else:
+                return r.json()
+        else:
+            return r.json()
